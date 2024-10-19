@@ -6,6 +6,7 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import LoginPage from './components/Login/LoginPage';
 import RegisterPage from './components/Register/RegisterPage';
+import DetailsPage from './components/DetailsPage/DetailsPage';
 
 function App() {
     const navigate = useNavigate()
@@ -19,6 +20,7 @@ function App() {
           <Route path="/app" element={<MainPage />} />
           <Route path="/app/login" element={<LoginPage />} />
           <Route path="/app/register" element={<RegisterPage />} />
+          <Route path="/app/product/:productId" element={<DetailsPage />} />
         </Routes>
         </>
   );
