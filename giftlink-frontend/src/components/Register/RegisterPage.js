@@ -26,34 +26,33 @@ function RegisterPage() {
 
     // insert code here to create handleRegister function and include console.log
     const handleRegister = async () => {
-         try{
-            const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
-                method: "post",
-                headers: {
-                    'content-type': 'application/json',
-                },
-                body: JSON.stringify({
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    password: password
-                })
+        const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
+            method: "POST",
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password
+            })
         })
-        }catch (e) {
-            console.log("Error fetching details: " + e.message);
-        }
+        
         const json = await response.json();
-                if (json.authtoken) {
-                    sessionStorage.setItem('auth-token', json.authtoken);
-                    sessionStorage.setItem('name', firstName);
-                    sessionStorage.setItem('email', json.email);
-                    setIsLoggedIn(true);
-                    navigate('/app')
-                }
-                // Task 3: Set the state of user to logged in using the `useAppContext`.
-                // Task 4: Navigate to the MainPage after logging in.
-                // Task 5: Set an error message if the registration fails.
-                // Task 6: Display error message to enduser.
+        if (json.authtoken) {
+            sessionStorage.setItem('auth-token', json.authtoken);
+            sessionStorage.setItem('name', firstName);
+            sessionStorage.setItem('email', json.email);
+
+            setIsLoggedIn(true);
+            
+            navigate('/app')
+        }
+        
+        if (json.error) {
+            setShowerr(json.error);
+        }
     }
     return (
         <div className="container mt-5">
@@ -98,6 +97,7 @@ function RegisterPage() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             />
+                            <div className="text-danger">{showerr}</div>
                         </div>
                         <div className="mb-4">
 
